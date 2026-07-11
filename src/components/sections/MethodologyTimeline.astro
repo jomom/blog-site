@@ -1,0 +1,100 @@
+---
+// MethodologyTimeline.astro — Five-phase vertical timeline from Stitch home design
+const phases = [
+  {
+    number: "Phase 01",
+    title: "Discover",
+    description:
+      "Deep structural audit of existing systems, identifying bottlenecks and uncovering latent technical debt.",
+  },
+  {
+    number: "Phase 02",
+    title: "Analyze",
+    description:
+      "Synthesizing findings into actionable data, mapping current state architecture against strategic business objectives.",
+  },
+  {
+    number: "Phase 03",
+    title: "Design",
+    description:
+      "Drafting fault-tolerant blueprints and technical specifications optimized for scale, security, and maintainability.",
+  },
+  {
+    number: "Phase 04",
+    title: "Build",
+    description:
+      "Executing engineering plans with precision, adhering to strict coding standards and automated deployment pipelines.",
+  },
+  {
+    number: "Phase 05",
+    title: "Optimize",
+    description:
+      "Continuous telemetry monitoring, performance tuning, and iterative enhancement of production environments.",
+  },
+];
+---
+
+<section
+  class="page-px section-py"
+  style="background-color: var(--color-surface-container-lowest);"
+>
+  <div class="container-max" style="max-width: 48rem; margin-inline: auto;">
+
+    <!-- Section header -->
+    <div class="mb-16 text-center md:text-left">
+      <span
+        class="text-label-caps block mb-4"
+        style="color: var(--color-on-surface-variant);"
+      >
+        Methodology
+      </span>
+      <h2 class="text-headline-lg" style="color: var(--color-primary);">
+        A rigorous sequence for predictable outcomes.
+      </h2>
+    </div>
+
+    <!-- Vertical Timeline -->
+    <ol class="list-none m-0 p-0">
+      {phases.map((phase, index) => (
+        <li
+          class="relative pl-8"
+          style={`
+            border-left: 1px solid var(--color-primary);
+            padding-bottom: ${index < phases.length - 1 ? "4rem" : "0"};
+          `}
+        >
+          <!-- Emerald marker dot -->
+          <div
+            aria-hidden="true"
+            style="
+              position: absolute;
+              left: -4.5px;
+              top: 0.5rem;
+              width: 0.5rem;
+              height: 0.5rem;
+              background-color: var(--color-emerald);
+              border-radius: 0;
+            "
+          />
+
+          <span
+            class="text-label-caps block mb-2"
+            style="color: var(--color-on-surface-variant);"
+          >
+            {phase.number}
+          </span>
+          <h3 class="text-headline-md mb-3" style="color: var(--color-primary);">
+            {phase.title}
+          </h3>
+          <p
+            class="text-body-md max-w-xl"
+            style="color: var(--color-on-surface-variant);"
+          >
+            {phase.description}
+          </p>
+        </li>
+      ))}
+    </ol>
+
+  </div>
+</section>

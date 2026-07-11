@@ -1,0 +1,190 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/ui/PostCard.astro";
+
+// Fetch and sort posts by date descending
+const allPosts = await getCollection("blog");
+const posts = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const featuredPost = posts[0];
+---
+
+<BaseLayout
+  title="Insights Hub | Joel Momanyi Nyaosi"
+  description="Systems thinking, technology strategy, and enterprise architecture essays by Joel Momanyi Nyaosi."
+>
+
+  <div
+    class="container-max page-px"
+    style="padding-top: 8rem; padding-bottom: var(--spacing-section-padding);"
+  >
+
+    <!-- ======================================================
+         FEATURED DISPATCH
+         ====================================================== -->
+    {featuredPost && (
+      <section
+        class="mb-section-padding"
+        aria-label="Featured essay"
+        style="margin-bottom: var(--spacing-section-padding);"
+      >
+        <div class="flex flex-col items-start max-w-4xl">
+          <span
+            class="text-label-caps mb-6 pb-1"
+            style="
+              color: var(--color-on-surface-variant);
+              border-bottom: 1px solid var(--color-outline-variant);
+            "
+          >
+            Featured Dispatch
+          </span>
+
+          <h1
+            class="text-display-lg text-balance mb-8"
+            style="color: var(--color-primary);"
+          >
+            {featuredPost.data.title}
+          </h1>
+
+          <p
+            class="text-body-lg mb-12 max-w-2xl"
+            style="color: var(--color-on-surface-variant);"
+          >
+            {featuredPost.data.description}
+          </p>
+
+          <a
+            href={`/blog/${featuredPost.id}`}
+            id="featured-post-link"
+            class="group inline-flex items-center gap-2 text-label-caps px-8 py-4 transition-colors duration-300"
+            style="border: 1px solid var(--color-primary); color: var(--color-primary); background: var(--color-surface);"
+            onmouseover="this.style.background='var(--color-primary)'; this.style.color='var(--color-on-primary)';"
+            onmouseout="this.style.background='var(--color-surface)'; this.style.color='var(--color-primary)';"
+          >
+            Read Monograph
+            <span
+              class="material-symbols-outlined transition-transform group-hover:translate-x-1"
+              style="font-size: 1rem;"
+            >
+              arrow_forward
+            </span>
+          </a>
+        </div>
+      </section>
+    )}
+
+    <!-- Divider -->
+    <div style="width: 100%; height: 1px; background-color: var(--color-primary); margin-bottom: 0;"></div>
+
+    <!-- ======================================================
+         SYSTEMS & STRATEGY INDEX (Archive)
+         ====================================================== -->
+    <section
+      class="section-py"
+      aria-label="All articles"
+    >
+      <div
+        class="flex flex-col md:flex-row justify-between items-baseline mb-16 pb-8"
+        style="border-bottom: 1px solid var(--color-primary);"
+      >
+        <h2 class="text-headline-lg m-0" style="color: var(--color-primary);">
+          Systems &amp; Strategy Index
+        </h2>
+        <span
+          class="text-label-caps mt-4 md:mt-0"
+          style="color: var(--color-on-surface-variant);"
+        >
+          Chronological Archive
+        </span>
+      </div>
+
+      <!-- Post list -->
+      <div
+        class="flex flex-col w-full"
+        style="border-top: 1px solid var(--color-outline-variant);"
+      >
+        {posts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            slug={post.id}
+            tags={post.data.tags}
+          />
+        ))}
+      </div>
+
+    </section>
+
+    <!-- ======================================================
+         NEWSLETTER SUBSCRIPTION
+         ====================================================== -->
+    <section
+      class="section-py"
+      style="
+        background-color: var(--color-surface-container-lowest);
+        border-top: 1px solid var(--color-primary);
+        border-bottom: 1px solid var(--color-primary);
+        margin-inline: calc(-1 * var(--spacing-margin-mobile));
+        padding-inline: var(--spacing-margin-mobile);
+      "
+      aria-label="Newsletter subscription"
+    >
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center container-max">
+        <div>
+          <h3 class="text-headline-md mb-4" style="color: var(--color-primary);">
+            Briefing Updates
+          </h3>
+          <p class="text-body-md max-w-md" style="color: var(--color-on-surface-variant);">
+            Receive unstructured intellectual capital and structural frameworks
+            directly to your inbox. Institutional minimalism applied to strategic
+            thought. Zero noise.
+          </p>
+        </div>
+
+        <div class="w-full max-w-md ml-auto">
+          <form class="flex flex-col gap-6" id="newsletter-form">
+            <div class="relative pt-6">
+              <label
+                for="newsletter-email"
+                class="text-label-caps absolute top-0 left-0"
+                style="color: var(--color-on-surface-variant);"
+              >
+                Institutional Address
+              </label>
+              <input
+                id="newsletter-email"
+                type="email"
+                name="email"
+                placeholder="address@firm.com"
+                required
+                class="w-full bg-transparent py-4 px-0 text-body-md focus:outline-none"
+                style="
+                  border: none;
+                  border-bottom: 1px solid var(--color-primary);
+                  color: var(--color-primary);
+                  border-radius: 0;
+                "
+              />
+            </div>
+
+            <button
+              type="submit"
+              class="w-full text-label-caps py-4 flex justify-between items-center px-6 transition-colors duration-200"
+              style="background: var(--color-primary); color: var(--color-on-primary); border-radius: 0;"
+              onmouseover="this.style.background='var(--color-inverse-surface)';"
+              onmouseout="this.style.background='var(--color-primary)';"
+            >
+              <span>Subscribe to Index</span>
+              <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_forward</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>

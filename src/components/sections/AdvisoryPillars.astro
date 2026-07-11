@@ -1,0 +1,86 @@
+---
+// AdvisoryPillars.astro — Six advisory pillars grid from Stitch home design
+const pillars = [
+  {
+    number: "01",
+    title: "Technology Consulting",
+    description:
+      "Aligning engineering investment with enterprise quarterly targets, ensuring every technical decision serves the bottom line.",
+  },
+  {
+    number: "02",
+    title: "Systems Design & Architecture",
+    description:
+      "Structural engineering for fault-tolerant, decoupled software ecosystems capable of scaling infinitely under load.",
+  },
+  {
+    number: "03",
+    title: "Web & Application Development",
+    description:
+      "Production-grade product engineering built on clean, modern code bases designed for long-term maintainability.",
+  },
+  {
+    number: "04",
+    title: "Digital Transformation",
+    description:
+      "Systemic modernizations of legacy infrastructure and broken operations, mitigating risk while accelerating workflow.",
+  },
+  {
+    number: "05",
+    title: "Digital Marketing Strategy",
+    description:
+      "Constructing high-yield performance funnels and programmatic customer acquisition engines based on hard data.",
+  },
+  {
+    number: "06",
+    title: "Strategic Advisory",
+    description:
+      "Serving as an external sounding board for high-stakes technical decision-making at the executive level.",
+  },
+];
+---
+
+<section
+  id="pillars"
+  class="page-px section-py container-max"
+  style="background-color: var(--color-surface);"
+>
+  <!-- Section header -->
+  <div style="margin-bottom: 6rem;">
+    <span
+      class="text-label-caps block mb-4"
+      style="color: var(--color-on-surface-variant);"
+    >
+      Core Competencies
+    </span>
+    <h2
+      class="text-headline-lg max-w-2xl"
+      style="color: var(--color-primary);"
+    >
+      Precision-engineered capabilities designed for complex environments.
+    </h2>
+  </div>
+
+  <!-- Pillars grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-24">
+    {pillars.map((pillar) => (
+      <div
+        class="group pt-6"
+        style="border-top: 1px solid var(--color-primary);"
+      >
+        <span
+          class="text-label-caps block mb-6 transition-colors duration-200 group-hover:text-primary"
+          style="color: var(--color-on-surface-variant);"
+        >
+          {pillar.number}
+        </span>
+        <h3 class="text-headline-md mb-4" style="color: var(--color-primary);">
+          {pillar.title}
+        </h3>
+        <p class="text-body-md" style="color: var(--color-on-surface-variant);">
+          {pillar.description}
+        </p>
+      </div>
+    ))}
+  </div>
+</section>

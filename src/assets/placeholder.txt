@@ -1,0 +1,2 @@
+Placeholder file to ensure the src/assets/ folder is created and tracked.
+Place custom fonts, SVGs, or local images here.

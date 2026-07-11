@@ -1,0 +1,51 @@
+---
+// Button.astro — Reusable button / link primitive
+// Variants: primary | outline | ghost
+interface Props {
+  href?: string;
+  variant?: "primary" | "outline" | "ghost";
+  size?: "md" | "lg";
+  class?: string;
+  [key: string]: any;
+}
+
+const {
+  href,
+  variant = "primary",
+  size = "md",
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Tag = href ? "a" : "button";
+
+const sizeStyles = {
+  md: "px-6 py-3",
+  lg: "px-8 py-4",
+};
+
+const variantStyles = {
+  primary:
+    "bg-primary text-on-primary border border-primary hover:bg-inverse-surface transition-colors duration-300",
+  outline:
+    "border border-primary text-primary bg-transparent hover:bg-primary hover:text-on-primary transition-colors duration-300",
+  ghost:
+    "text-primary hover:underline transition-colors duration-200",
+};
+---
+
+<Tag
+  href={href}
+  class:list={[
+    "inline-flex items-center justify-center gap-2",
+    "text-label-caps",
+    "rounded-none",
+    "cursor-pointer",
+    sizeStyles[size],
+    variantStyles[variant],
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</Tag>

@@ -1,0 +1,127 @@
+---
+// Header.astro — Full sticky navigation from Stitch design
+const navLinks = [
+  { href: "/", label: "About" },
+  { href: "/#pillars", label: "Approach" },
+  { href: "/#intake", label: "Services" },
+  { href: "/blog", label: "Insights" },
+];
+
+const pathname = Astro.url.pathname;
+---
+
+<nav
+  id="site-header"
+  class="fixed top-0 w-full z-50 flex justify-between items-center page-px py-4 transition-all duration-300"
+  style="background-color: rgba(249,249,250,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--color-primary);"
+>
+  <!-- Wordmark / Logo -->
+  <a
+    href="/"
+    class="text-headline-md text-primary font-bold tracking-tighter uppercase hover:opacity-70 transition-opacity"
+    aria-label="Joel Momanyi Nyaosi — Home"
+  >
+    Joel Momanyi Nyaosi
+  </a>
+
+  <!-- Desktop Nav Links -->
+  <div class="hidden md:flex items-center gap-8">
+    {navLinks.map((link) => (
+      <a
+        href={link.href}
+        class:list={[
+          "text-label-caps transition-colors duration-200",
+          pathname === link.href
+            ? "text-primary border-b-2 pb-1"
+            : "text-on-surface-variant hover:text-primary"
+        ]}
+        style={pathname === link.href ? "border-color: var(--color-secondary);" : ""}
+      >
+        {link.label}
+      </a>
+    ))}
+  </div>
+
+  <!-- CTA Button (Desktop) -->
+  <a
+    href="/#intake"
+    class="hidden md:inline-flex items-center justify-center text-label-caps px-6 py-3 transition-colors duration-300"
+    style="background: var(--color-primary); color: var(--color-on-primary); border: 1px solid var(--color-primary);"
+    onmouseover="this.style.background='var(--color-inverse-surface)'"
+    onmouseout="this.style.background='var(--color-primary)'"
+  >
+    Initiate Brief
+  </a>
+
+  <!-- Mobile Hamburger -->
+  <button
+    id="mobile-menu-toggle"
+    class="md:hidden p-2"
+    style="color: var(--color-primary);"
+    aria-label="Toggle menu"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+  >
+    <span class="material-symbols-outlined" id="menu-icon">menu</span>
+  </button>
+</nav>
+
+<!-- Mobile Menu Drawer -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-40 hidden flex-col pt-20"
+  style="background-color: var(--color-surface-container-lowest);"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Mobile navigation"
+>
+  <div class="flex flex-col p-6 gap-6">
+    {navLinks.map((link) => (
+      <a
+        href={link.href}
+        class="text-headline-md text-primary border-b py-4 transition-colors hover:text-secondary"
+        style="border-color: var(--color-outline-variant);"
+      >
+        {link.label}
+      </a>
+    ))}
+    <a
+      href="/#intake"
+      class="mt-4 text-label-caps py-4 px-6 text-center"
+      style="background: var(--color-primary); color: var(--color-on-primary);"
+    >
+      Initiate Brief
+    </a>
+  </div>
+</div>
+
+<script>
+  const toggle = document.getElementById("mobile-menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  const icon = document.getElementById("menu-icon");
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = !menu?.classList.contains("hidden");
+    if (isOpen) {
+      menu?.classList.add("hidden");
+      menu?.classList.remove("flex");
+      if (icon) icon.textContent = "menu";
+      toggle.setAttribute("aria-expanded", "false");
+    } else {
+      menu?.classList.remove("hidden");
+      menu?.classList.add("flex");
+      if (icon) icon.textContent = "close";
+      toggle.setAttribute("aria-expanded", "true");
+    }
+  });
+
+  // Close on nav link click
+  menu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      menu?.classList.add("hidden");
+      menu?.classList.remove("flex");
+      if (icon) icon.textContent = "menu";
+      toggle?.setAttribute("aria-expanded", "false");
+    });
+  });
+</script>

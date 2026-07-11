@@ -1,0 +1,109 @@
+---
+// Hero.astro — Full-bleed hero module from Stitch home_jmn.digital export
+---
+
+<header
+  class="page-px container-max"
+  style="
+    padding-top: 10rem;
+    padding-bottom: var(--spacing-section-padding);
+    min-height: 921px;
+    display: flex;
+    align-items: center;
+  "
+>
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full">
+
+    <!-- Left — Copy -->
+    <div class="md:col-span-7 md:pr-12">
+      <h1 class="text-display-lg text-balance" style="color: var(--color-primary);">
+        Technology Strategy That Creates Real Business Value.
+      </h1>
+
+      <p
+        class="text-body-lg mt-8 max-w-2xl"
+        style="color: var(--color-on-surface-variant);"
+      >
+        Helping enterprise organizations design resilient systems, build scalable
+        digital architectures, and accelerate revenue growth through calculated
+        technology investments.
+      </p>
+
+      <div class="mt-12 flex flex-col sm:flex-row gap-4">
+        <a
+          href="#intake"
+          id="hero-cta-primary"
+          class="text-label-caps px-8 py-4 text-center tracking-widest transition-colors duration-300"
+          style="background: var(--color-primary); color: var(--color-on-primary); border: 1px solid var(--color-primary);"
+          onmouseover="this.style.background='var(--color-surface)'; this.style.color='var(--color-primary)';"
+          onmouseout="this.style.background='var(--color-primary)'; this.style.color='var(--color-on-primary)';"
+        >
+          Schedule Consultation
+        </a>
+        <a
+          href="#pillars"
+          id="hero-cta-secondary"
+          class="text-label-caps px-8 py-4 text-center tracking-widest transition-colors duration-300"
+          style="border: 1px solid var(--color-primary); color: var(--color-primary); background: transparent;"
+          onmouseover="this.style.background='var(--color-primary)'; this.style.color='var(--color-on-primary)';"
+          onmouseout="this.style.background='transparent'; this.style.color='var(--color-primary)';"
+        >
+          Explore Capabilities
+        </a>
+      </div>
+    </div>
+
+    <!-- Right — Abstract Network SVG -->
+    <div class="md:col-span-5 hidden md:block relative" style="height: 500px;">
+      <svg
+        viewBox="0 0 400 500"
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-full h-full"
+        style="opacity: 0.85;"
+        aria-hidden="true"
+      >
+        <defs>
+          <pattern
+            id="hero-dot-grid"
+            patternUnits="userSpaceOnUse"
+            width="40"
+            height="40"
+          >
+            <circle cx="2" cy="2" r="1" fill="var(--color-surface-container-highest)" />
+          </pattern>
+        </defs>
+        <!-- Background dot grid -->
+        <rect width="100%" height="100%" fill="url(#hero-dot-grid)" />
+
+        <!-- Connection lines — subtle -->
+        <path
+          d="M80 100 L200 150 L320 80 M200 150 L150 280 L100 400 M150 280 L280 320 M200 150 L280 320"
+          fill="none"
+          stroke="var(--color-primary)"
+          stroke-width="1"
+          opacity="0.3"
+        />
+        <path
+          d="M80 100 L150 280 M320 80 L280 320"
+          fill="none"
+          stroke="var(--color-primary)"
+          stroke-width="1"
+          stroke-dasharray="4 4"
+          opacity="0.2"
+        />
+
+        <!-- Node dots -->
+        <circle cx="80"  cy="100" r="4" fill="var(--color-primary)" />
+        <circle cx="320" cy="80"  r="3" fill="var(--color-primary)" />
+        <circle cx="150" cy="280" r="5" fill="var(--color-primary)" />
+        <circle cx="280" cy="320" r="7" fill="var(--color-primary)" />
+        <circle cx="100" cy="400" r="4" fill="var(--color-primary)" />
+
+        <!-- Central accent node (emerald) -->
+        <circle cx="200" cy="150" r="6" fill="var(--color-primary)" />
+        <circle cx="200" cy="150" r="3" fill="var(--color-emerald)" />
+      </svg>
+    </div>
+
+  </div>
+</header>

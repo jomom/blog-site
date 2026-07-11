@@ -1,0 +1,174 @@
+---
+// ContactForm.astro — Boardroom intake funnel from Stitch home_jmn.digital design
+const categories = [
+  { value: "consulting", label: "Technology Consulting" },
+  { value: "architecture", label: "Systems Architecture" },
+  { value: "development", label: "Application Development" },
+  { value: "transformation", label: "Digital Transformation" },
+  { value: "advisory", label: "Strategic Advisory" },
+];
+---
+
+<section
+  id="intake"
+  class="page-px section-py container-max"
+  style="
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-primary);
+  "
+>
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+
+    <!-- Left — headline + subtext -->
+    <div class="md:col-span-5 md:pr-12 mb-12 md:mb-0">
+      <h2
+        class="text-headline-lg text-balance mb-6"
+        style="color: var(--color-primary);"
+      >
+        Initialize a Consultation
+      </h2>
+      <p class="text-body-md" style="color: var(--color-on-surface-variant);">
+        Submit a preliminary brief to schedule an executive strategy session.
+        All correspondence is treated with absolute confidentiality.
+      </p>
+    </div>
+
+    <!-- Right — form -->
+    <div class="md:col-span-7">
+      <form
+        id="intake-form"
+        class="flex flex-col gap-12"
+        novalidate
+      >
+        <!-- Full Name -->
+        <div class="relative">
+          <label
+            for="intake-name"
+            class="text-label-caps block mb-2"
+            style="color: var(--color-on-surface-variant);"
+          >
+            Full Name
+          </label>
+          <input
+            id="intake-name"
+            name="name"
+            type="text"
+            placeholder="Enter your full name"
+            required
+            class="w-full bg-transparent py-4 px-0 text-body-md focus:outline-none"
+            style="
+              border: none;
+              border-bottom: 1px solid var(--color-primary);
+              color: var(--color-on-surface);
+              border-radius: 0;
+            "
+          />
+        </div>
+
+        <!-- Corporate Email -->
+        <div class="relative">
+          <label
+            for="intake-email"
+            class="text-label-caps block mb-2"
+            style="color: var(--color-on-surface-variant);"
+          >
+            Corporate Email
+          </label>
+          <input
+            id="intake-email"
+            name="email"
+            type="email"
+            placeholder="name@company.com"
+            required
+            class="w-full bg-transparent py-4 px-0 text-body-md focus:outline-none"
+            style="
+              border: none;
+              border-bottom: 1px solid var(--color-primary);
+              color: var(--color-on-surface);
+              border-radius: 0;
+            "
+          />
+        </div>
+
+        <!-- Engagement Category -->
+        <div class="relative">
+          <label
+            for="intake-category"
+            class="text-label-caps block mb-2"
+            style="color: var(--color-on-surface-variant);"
+          >
+            Engagement Category
+          </label>
+          <div class="relative">
+            <select
+              id="intake-category"
+              name="category"
+              class="w-full appearance-none bg-transparent py-4 px-0 text-body-md focus:outline-none cursor-pointer"
+              style="
+                border: none;
+                border-bottom: 1px solid var(--color-primary);
+                color: var(--color-on-surface);
+                border-radius: 0;
+              "
+            >
+              <option value="" disabled selected>Select primary focus area</option>
+              {categories.map((cat) => (
+                <option value={cat.value}>{cat.label}</option>
+              ))}
+            </select>
+            <div
+              class="pointer-events-none absolute inset-y-0 right-0 flex items-center"
+              style="color: var(--color-primary);"
+            >
+              <span class="material-symbols-outlined">expand_more</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scope Blueprint -->
+        <div class="relative">
+          <label
+            for="intake-scope"
+            class="text-label-caps block mb-2"
+            style="color: var(--color-on-surface-variant);"
+          >
+            Scope Blueprint
+          </label>
+          <textarea
+            id="intake-scope"
+            name="scope"
+            rows={4}
+            placeholder="Provide a brief overview of the operational challenge or strategic objective..."
+            class="w-full bg-transparent py-4 px-0 text-body-md focus:outline-none resize-none"
+            style="
+              border: none;
+              border-bottom: 1px solid var(--color-primary);
+              color: var(--color-on-surface);
+              border-radius: 0;
+            "
+          />
+        </div>
+
+        <!-- Submit -->
+        <div class="pt-4">
+          <button
+            type="submit"
+            id="intake-submit"
+            class="w-full md:w-auto text-label-caps px-12 py-5 flex items-center justify-center gap-2 transition-colors duration-300"
+            style="
+              background: var(--color-primary);
+              color: var(--color-on-primary);
+              border-radius: 0;
+            "
+            onmouseover="this.style.background='var(--color-inverse-surface)';"
+            onmouseout="this.style.background='var(--color-primary)';"
+          >
+            Submit Blueprint
+            <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_forward</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</section>

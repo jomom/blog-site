@@ -1,0 +1,277 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN TOKENS — Sourced from Stitch Export (jmn.digital)
+   ============================================================ */
+@theme {
+  /* --- Color Palette (Material Design 3 roles) --- */
+  --color-primary:                    #000000;
+  --color-on-primary:                 #ffffff;
+  --color-primary-container:          #1c1b1b;
+  --color-on-primary-container:       #858383;
+  --color-primary-fixed:              #e5e2e1;
+  --color-primary-fixed-dim:          #c9c6c5;
+  --color-on-primary-fixed:           #1c1b1b;
+  --color-on-primary-fixed-variant:   #474646;
+  --color-inverse-primary:            #c9c6c5;
+
+  --color-secondary:                  #006c49;
+  --color-on-secondary:               #ffffff;
+  --color-secondary-container:        #6cf8bb;
+  --color-on-secondary-container:     #00714d;
+  --color-secondary-fixed:            #6ffbbe;
+  --color-secondary-fixed-dim:        #4edea3;
+  --color-on-secondary-fixed:         #002113;
+  --color-on-secondary-fixed-variant: #005236;
+
+  --color-tertiary:                   #000000;
+  --color-on-tertiary:                #ffffff;
+  --color-tertiary-container:         #1d1b1a;
+  --color-on-tertiary-container:      #868381;
+  --color-tertiary-fixed:             #e6e1df;
+  --color-tertiary-fixed-dim:         #cac6c3;
+  --color-on-tertiary-fixed:          #1d1b1a;
+  --color-on-tertiary-fixed-variant:  #484645;
+
+  --color-background:                 #f9f9fa;
+  --color-on-background:              #1a1c1d;
+
+  --color-surface:                    #f9f9fa;
+  --color-on-surface:                 #1a1c1d;
+  --color-surface-variant:            #e2e2e3;
+  --color-on-surface-variant:         #444748;
+  --color-surface-bright:             #f9f9fa;
+  --color-surface-dim:                #dadadb;
+  --color-surface-tint:               #5f5e5e;
+  --color-surface-container-lowest:   #ffffff;
+  --color-surface-container-low:      #f3f3f4;
+  --color-surface-container:          #eeeeef;
+  --color-surface-container-high:     #e8e8e9;
+  --color-surface-container-highest:  #e2e2e3;
+  --color-inverse-surface:            #2f3132;
+  --color-inverse-on-surface:         #f0f1f2;
+
+  --color-outline:                    #747878;
+  --color-outline-variant:            #c4c7c7;
+
+  --color-error:                      #ba1a1a;
+  --color-on-error:                   #ffffff;
+  --color-error-container:            #ffdad6;
+  --color-on-error-container:         #93000a;
+
+  /* Accent emerald (used in SVG decoration & timeline) */
+  --color-emerald:                    #10B981;
+
+  /* --- Typography --- */
+  --font-family-sans:       "Inter", sans-serif;
+  --font-family-display:    "Plus Jakarta Sans", sans-serif;
+
+  /* Body MD — 16px */
+  --font-size-body-md:      1rem;
+  --line-height-body-md:    1.6;
+  --font-weight-body-md:    400;
+
+  /* Body LG — 18px */
+  --font-size-body-lg:      1.125rem;
+  --line-height-body-lg:    1.6;
+  --font-weight-body-lg:    400;
+
+  /* Label Caps — 12px uppercase tracked */
+  --font-size-label-caps:   0.75rem;
+  --line-height-label-caps: 1;
+  --letter-spacing-label-caps: 0.1em;
+  --font-weight-label-caps: 600;
+
+  /* Headline MD — 24px */
+  --font-size-headline-md:     1.5rem;
+  --line-height-headline-md:   1.3;
+  --letter-spacing-headline-md: -0.01em;
+  --font-weight-headline-md:   700;
+
+  /* Headline LG — 40px */
+  --font-size-headline-lg:     2.5rem;
+  --line-height-headline-lg:   1.2;
+  --letter-spacing-headline-lg: -0.02em;
+  --font-weight-headline-lg:   700;
+
+  /* Headline LG Mobile — 32px */
+  --font-size-headline-lg-mobile: 2rem;
+  --line-height-headline-lg-mobile: 1.2;
+  --letter-spacing-headline-lg-mobile: -0.02em;
+  --font-weight-headline-lg-mobile: 700;
+
+  /* Display LG — 64px */
+  --font-size-display-lg:     4rem;
+  --line-height-display-lg:   1.1;
+  --letter-spacing-display-lg: -0.04em;
+  --font-weight-display-lg:   800;
+
+  /* --- Spacing / Layout --- */
+  --spacing-unit:            0.5rem;   /* 8px */
+  --spacing-gutter:          2rem;     /* 32px */
+  --spacing-margin-mobile:   1.5rem;   /* 24px */
+  --spacing-margin-desktop:  4rem;     /* 64px */
+  --spacing-section-padding: 8rem;     /* 128px */
+  --spacing-container-max:   90rem;    /* 1440px */
+
+  /* --- Border Radius --- */
+  --radius-none: 0px;
+  --radius-sm:   0.25rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.75rem;
+  --radius-full: 9999px;
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-body-md);
+    line-height: var(--line-height-body-md);
+    color: var(--color-on-surface);
+    background-color: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar         { width: 6px; }
+  ::-webkit-scrollbar-track   { background: var(--color-surface); }
+  ::-webkit-scrollbar-thumb   { background: var(--color-outline-variant); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-outline); }
+
+  /* Material Symbols */
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  /* Focus ring */
+  :focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+  }
+}
+
+/* ============================================================
+   TYPOGRAPHY UTILITIES  (semantic scale from Stitch)
+   ============================================================ */
+@layer utilities {
+  /* --- Display LG --- */
+  .text-display-lg {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-display-lg);
+    line-height: var(--line-height-display-lg);
+    letter-spacing: var(--letter-spacing-display-lg);
+    font-weight: var(--font-weight-display-lg);
+  }
+
+  /* --- Headline LG --- */
+  .text-headline-lg {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-headline-lg);
+    line-height: var(--line-height-headline-lg);
+    letter-spacing: var(--letter-spacing-headline-lg);
+    font-weight: var(--font-weight-headline-lg);
+  }
+
+  /* --- Headline LG Mobile --- */
+  .text-headline-lg-mobile {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-headline-lg-mobile);
+    line-height: var(--line-height-headline-lg-mobile);
+    letter-spacing: var(--letter-spacing-headline-lg-mobile);
+    font-weight: var(--font-weight-headline-lg-mobile);
+  }
+
+  /* --- Headline MD --- */
+  .text-headline-md {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-headline-md);
+    line-height: var(--line-height-headline-md);
+    letter-spacing: var(--letter-spacing-headline-md);
+    font-weight: var(--font-weight-headline-md);
+  }
+
+  /* --- Body LG --- */
+  .text-body-lg {
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-body-lg);
+    line-height: var(--line-height-body-lg);
+    font-weight: var(--font-weight-body-lg);
+  }
+
+  /* --- Body MD --- */
+  .text-body-md {
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-body-md);
+    line-height: var(--line-height-body-md);
+    font-weight: var(--font-weight-body-md);
+  }
+
+  /* --- Label Caps --- */
+  .text-label-caps {
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-label-caps);
+    line-height: var(--line-height-label-caps);
+    letter-spacing: var(--letter-spacing-label-caps);
+    font-weight: var(--font-weight-label-caps);
+    text-transform: uppercase;
+  }
+
+  /* --- Container width utility --- */
+  .container-max {
+    max-width: var(--spacing-container-max);
+    margin-inline: auto;
+  }
+
+  /* --- Section padding --- */
+  .section-py {
+    padding-top: var(--spacing-section-padding);
+    padding-bottom: var(--spacing-section-padding);
+  }
+
+  /* --- Page horizontal margins --- */
+  .page-px {
+    padding-inline: var(--spacing-margin-mobile);
+  }
+
+  @media (min-width: 768px) {
+    .page-px {
+      padding-inline: var(--spacing-margin-desktop);
+    }
+
+    .text-display-lg {
+      font-size: var(--font-size-display-lg);
+    }
+
+    .text-headline-lg {
+      font-size: var(--font-size-headline-lg);
+    }
+  }
+
+  /* Responsive display — mobile uses headline-lg-mobile size */
+  @media (max-width: 767px) {
+    .text-display-lg {
+      font-size: var(--font-size-headline-lg-mobile);
+      line-height: var(--line-height-headline-lg-mobile);
+      letter-spacing: var(--letter-spacing-headline-lg-mobile);
+    }
+
+    .text-headline-lg {
+      font-size: var(--font-size-headline-lg-mobile);
+      line-height: var(--line-height-headline-lg-mobile);
+    }
+  }
+}

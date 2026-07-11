@@ -1,0 +1,46 @@
+---
+// PostCard.astro — Blog archive list-row card
+// Matches the Stitch "Systems & Strategy Index" list item design
+import { formatDate } from "../../utils/formatDate";
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  slug: string;
+  tags?: string[];
+}
+
+const { title, pubDate, slug, tags = [] } = Astro.props;
+const primaryTag = tags[0] ?? "Insights";
+const formattedDate = formatDate(pubDate, { month: "short", day: "numeric", year: "numeric" });
+---
+
+<a
+  href={`/blog/${slug}`}
+  class="group grid grid-cols-1 md:grid-cols-12 gap-8 py-8 px-4 -mx-4 items-baseline transition-colors duration-300"
+  style="border-bottom: 1px solid var(--color-outline-variant);"
+  onmouseover="this.style.backgroundColor='var(--color-surface-container-low)'"
+  onmouseout="this.style.backgroundColor='transparent'"
+>
+  <!-- Tag -->
+  <div class="md:col-span-2 text-label-caps mb-2 md:mb-0" style="color: var(--color-on-surface-variant);">
+    {primaryTag}
+  </div>
+
+  <!-- Title -->
+  <div
+    class="md:col-span-8 text-headline-md transition-colors duration-200 group-hover:text-secondary"
+    style="color: var(--color-primary);"
+  >
+    {title}
+  </div>
+
+  <!-- Date -->
+  <div
+    class="md:col-span-2 text-label-caps md:text-right mt-2 md:mt-0"
+    style="color: var(--color-on-surface-variant);"
+  >
+    {formattedDate}
+  </div>
+</a>
