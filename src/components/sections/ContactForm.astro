@@ -7,6 +7,12 @@ const categories = [
   { value: "transformation", label: "Digital Transformation" },
   { value: "advisory", label: "Strategic Advisory" },
 ];
+
+const web3formsAccessKey = 
+  import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY || 
+  import.meta.env.PUBLIC_WEB3FORMS_KEY || 
+  import.meta.env.WEB3FORMS_ACCESS_KEY || 
+  "YOUR_ACCESS_KEY";
 ---
 
 <section
@@ -37,9 +43,28 @@ const categories = [
     <div class="md:col-span-7">
       <form
         id="intake-form"
+        action="https://api.web3forms.com/submit"
+        method="POST"
         class="flex flex-col gap-12"
         novalidate
+        aria-labelledby="intake-title"
       >
+        <!-- Web3Forms Config Hidden Fields -->
+        <input type="hidden" name="access_key" value={web3formsAccessKey} />
+        <input type="hidden" name="subject" value="New Consultation Request" />
+        <input type="hidden" name="from_name" value="Jomom.digital Website" />
+        
+        <!-- Spam Protection: Hidden Botcheck Honeypot Field -->
+        <input type="checkbox" name="botcheck" id="botcheck" class="hidden" style="display: none;" tabindex="-1" autocomplete="off" />
+
+        <!-- Accessibility Alert / Status Notification Container -->
+        <div
+          id="intake-status"
+          role="status"
+          aria-live="polite"
+          class="hidden p-4 text-body-md transition-all duration-300"
+        ></div>
+
         <!-- Full Name -->
         <div class="relative">
           <label
@@ -47,7 +72,7 @@ const categories = [
             class="text-label-caps block mb-2"
             style="color: var(--color-on-surface-variant);"
           >
-            Full Name
+            Full Name <span class="text-red-400" aria-hidden="true">*</span>
           </label>
           <input
             id="intake-name"
@@ -55,6 +80,8 @@ const categories = [
             type="text"
             placeholder="Enter your full name"
             required
+            aria-required="true"
+            aria-describedby="name-error"
             class="w-full bg-transparent py-4 px-0 text-body-md focus:outline-none"
             style="
               border: none;
@@ -63,6 +90,7 @@ const categories = [
               border-radius: 0;
             "
           />
+          <span id="name-error" class="field-error text-xs text-red-400 hidden mt-2 block" role="alert">Full name is required.</span>
         </div>
 
         <!-- Corporate Email -->
@@ -72,7 +100,7 @@ const categories = [
             class="text-label-caps block mb-2"
             style="color: var(--color-on-surface-variant);"
           >
-            Corporate Email
+            Corporate Email <span class="text-red-400" aria-hidden="true">*</span>
           </label>
           <input
             id="intake-email"
@@ -80,6 +108,8 @@ const categories = [
             type="email"
             placeholder="name@company.com"
             required
+            aria-required="true"
+            aria-describedby="email-error"
             class="w-full bg-transparent py-4 px-0 text-body-md focus:outline-none"
             style="
               border: none;
@@ -88,6 +118,7 @@ const categories = [
               border-radius: 0;
             "
           />
+          <span id="email-error" class="field-error text-xs text-red-400 hidden mt-2 block" role="alert">A valid corporate email address is required.</span>
         </div>
 
         <!-- Engagement Category -->
@@ -97,12 +128,15 @@ const categories = [
             class="text-label-caps block mb-2"
             style="color: var(--color-on-surface-variant);"
           >
-            Engagement Category
+            Engagement Category <span class="text-red-400" aria-hidden="true">*</span>
           </label>
           <div class="relative">
             <select
               id="intake-category"
               name="category"
+              required
+              aria-required="true"
+              aria-describedby="category-error"
               class="w-full appearance-none bg-transparent py-4 px-0 text-body-md focus:outline-none cursor-pointer"
               style="
                 border: none;
@@ -120,25 +154,29 @@ const categories = [
               class="pointer-events-none absolute inset-y-0 right-0 flex items-center"
               style="color: var(--color-primary);"
             >
-              <span class="material-symbols-outlined">expand_more</span>
+              <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
             </div>
           </div>
+          <span id="category-error" class="field-error text-xs text-red-400 hidden mt-2 block" role="alert">Please select an engagement category.</span>
         </div>
 
-        <!-- Scope Blueprint -->
+        <!-- Scope Blueprint / Message -->
         <div class="relative">
           <label
             for="intake-scope"
             class="text-label-caps block mb-2"
             style="color: var(--color-on-surface-variant);"
           >
-            Scope Blueprint
+            Scope Blueprint <span class="text-red-400" aria-hidden="true">*</span>
           </label>
           <textarea
             id="intake-scope"
-            name="scope"
+            name="message"
             rows={4}
             placeholder="Provide a brief overview of the operational challenge or strategic objective..."
+            required
+            aria-required="true"
+            aria-describedby="scope-error"
             class="w-full bg-transparent py-4 px-0 text-body-md focus:outline-none resize-none"
             style="
               border: none;
@@ -146,7 +184,8 @@ const categories = [
               color: var(--color-on-surface);
               border-radius: 0;
             "
-          />
+          ></textarea>
+          <span id="scope-error" class="field-error text-xs text-red-400 hidden mt-2 block" role="alert">Scope blueprint / message is required.</span>
         </div>
 
         <!-- Submit -->
@@ -154,21 +193,230 @@ const categories = [
           <button
             type="submit"
             id="intake-submit"
-            class="w-full md:w-auto text-label-caps px-12 py-5 flex items-center justify-center gap-2 transition-colors duration-300"
+            class="w-full md:w-auto text-label-caps px-12 py-5 flex items-center justify-center gap-2 transition-colors duration-300 cursor-pointer disabled:cursor-not-allowed"
             style="
               background: var(--color-primary);
               color: var(--color-on-primary);
               border-radius: 0;
             "
-            onmouseover="this.style.background='var(--color-inverse-surface)';"
-            onmouseout="this.style.background='var(--color-primary)';"
+            onmouseover="if(!this.disabled) this.style.background='var(--color-inverse-surface)';"
+            onmouseout="if(!this.disabled) this.style.background='var(--color-primary)';"
           >
-            Submit Blueprint
-            <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_forward</span>
+            <span id="intake-submit-text">Submit Blueprint</span>
+            <span class="material-symbols-outlined" id="intake-submit-icon" style="font-size: 1rem;">arrow_forward</span>
           </button>
         </div>
       </form>
     </div>
 
   </div>
+
+  <!-- Toast Notification System -->
+  <div
+    id="toast-notification"
+    role="status"
+    aria-live="polite"
+    class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none"
+  >
+    <div
+      id="toast-content"
+      class="px-6 py-4 rounded-none shadow-2xl flex items-center gap-3 text-sm font-medium border"
+      style="
+        background-color: var(--color-surface, #121212);
+        color: var(--color-on-surface, #ffffff);
+        border-color: var(--color-primary, #00ffaa);
+      "
+    >
+      <span id="toast-icon" class="material-symbols-outlined text-base">info</span>
+      <span id="toast-message">Notification message</span>
+    </div>
+  </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('intake-form') as HTMLFormElement | null;
+    const statusDiv = document.getElementById('intake-status');
+    const submitBtn = document.getElementById('intake-submit') as HTMLButtonElement | null;
+    const submitText = document.getElementById('intake-submit-text');
+    const submitIcon = document.getElementById('intake-submit-icon');
+
+    // Toast elements
+    const toast = document.getElementById('toast-notification');
+    const toastMessage = document.getElementById('toast-message');
+    const toastIcon = document.getElementById('toast-icon');
+    let toastTimeout: number | undefined;
+
+    const showToast = (message: string, type: 'loading' | 'success' | 'error') => {
+      if (!toast || !toastMessage || !toastIcon) return;
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+
+      toastMessage.textContent = message;
+
+      if (type === 'loading') {
+        toastIcon.textContent = 'progress_activity';
+        toastIcon.className = 'material-symbols-outlined text-base animate-spin';
+      } else if (type === 'success') {
+        toastIcon.textContent = 'check_circle';
+        toastIcon.className = 'material-symbols-outlined text-base text-emerald-400';
+      } else {
+        toastIcon.textContent = 'error';
+        toastIcon.className = 'material-symbols-outlined text-base text-rose-500';
+      }
+
+      toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      if (type !== 'loading') {
+        toastTimeout = window.setTimeout(() => {
+          toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+          toast.classList.remove('translate-y-0', 'opacity-100');
+        }, 5000);
+      }
+    };
+
+    if (!form || !statusDiv || !submitBtn || !submitText || !submitIcon) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Reset previous error indicators and status message
+      const errorSpans = form.querySelectorAll('.field-error');
+      errorSpans.forEach((el) => el.classList.add('hidden'));
+      statusDiv.classList.add('hidden');
+      statusDiv.className = 'p-4 text-body-md transition-all duration-300 hidden';
+
+      // Inputs
+      const nameInput = form.querySelector('[name="name"]') as HTMLInputElement;
+      const emailInput = form.querySelector('[name="email"]') as HTMLInputElement;
+      const categoryInput = form.querySelector('[name="category"]') as HTMLSelectElement;
+      const messageInput = form.querySelector('[name="message"]') as HTMLTextAreaElement;
+
+      let isValid = true;
+
+      // Validate Name
+      if (!nameInput?.value.trim()) {
+        document.getElementById('name-error')?.classList.remove('hidden');
+        isValid = false;
+      }
+
+      // Validate Email (format check)
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailInput?.value.trim() || !emailRegex.test(emailInput.value.trim())) {
+        document.getElementById('email-error')?.classList.remove('hidden');
+        isValid = false;
+      }
+
+      // Validate Category Selection
+      if (!categoryInput?.value || categoryInput.value === '') {
+        document.getElementById('category-error')?.classList.remove('hidden');
+        isValid = false;
+      }
+
+      // Validate Message / Scope
+      if (!messageInput?.value.trim()) {
+        document.getElementById('scope-error')?.classList.remove('hidden');
+        isValid = false;
+      }
+
+      if (!isValid) return;
+
+      // Disable button & Prevent Duplicate Submissions
+      submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-disabled', 'true');
+      submitBtn.style.opacity = '0.7';
+      submitText.textContent = 'Sending...';
+      submitIcon.textContent = 'progress_activity';
+      submitIcon.classList.add('animate-spin');
+
+      // Trigger Toast Loading
+      showToast('⏳ Sending consultation request...', 'loading');
+
+      try {
+        const formData = new FormData(form);
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify(object);
+
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: json
+        });
+
+        const result = await response.json();
+
+        if (response.status === 200 && result.success) {
+          // Success Banner State
+          statusDiv.style.border = '1px solid var(--color-primary, #00ffaa)';
+          statusDiv.style.color = 'var(--color-on-surface, #ffffff)';
+          statusDiv.style.backgroundColor = 'rgba(0, 255, 170, 0.1)';
+          statusDiv.innerHTML = `
+            <div class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-emerald-400 mt-0.5">check_circle</span>
+              <div>
+                <p class="font-bold mb-1">✅ Thank you.</p>
+                <p>Your consultation request has been received.</p>
+                <p class="text-sm opacity-80 mt-1">We'll respond within 1–2 business days.</p>
+              </div>
+            </div>
+          `;
+          statusDiv.classList.remove('hidden');
+
+          // Toast Success
+          showToast("✅ Consultation request sent successfully. We'll be in touch shortly.", 'success');
+
+          // Clear form after successful submission
+          form.reset();
+        } else {
+          // Error Banner State
+          statusDiv.style.border = '1px solid #ef4444';
+          statusDiv.style.color = '#ef4444';
+          statusDiv.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+          statusDiv.innerHTML = `
+            <div class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-rose-500 mt-0.5">error</span>
+              <div>
+                <p class="font-bold mb-1">❌ Something went wrong.</p>
+                <p>${result.message || 'Please try again in a few moments.'}</p>
+              </div>
+            </div>
+          `;
+          statusDiv.classList.remove('hidden');
+
+          // Toast Error
+          showToast('❌ Unable to send your request. Please try again.', 'error');
+        }
+      } catch (err) {
+        statusDiv.style.border = '1px solid #ef4444';
+        statusDiv.style.color = '#ef4444';
+        statusDiv.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+        statusDiv.innerHTML = `
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-rose-500 mt-0.5">wifi_off</span>
+            <div>
+              <p class="font-bold mb-1">❌ Something went wrong.</p>
+              <p>Please try again in a few moments.</p>
+            </div>
+          </div>
+        `;
+        statusDiv.classList.remove('hidden');
+
+        showToast('❌ Unable to send your request. Please try again.', 'error');
+      } finally {
+        // Re-enable Button and Restore Text
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute('aria-disabled');
+        submitBtn.style.opacity = '1';
+        submitText.textContent = 'Submit Blueprint';
+        submitIcon.textContent = 'arrow_forward';
+        submitIcon.classList.remove('animate-spin');
+      }
+    });
+  });
+</script>
+
+
